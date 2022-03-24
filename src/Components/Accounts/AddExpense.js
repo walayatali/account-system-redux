@@ -3,15 +3,20 @@ import classes from './AddExpense.module.css';
 import ReportContext from '../Store/report-context';
 import useGetData from '../../Hooks/useGetData';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { reportActions } from '../Store/report-slice';
+
 
 
 function AddExpense(props)	{
-const ctxRep =  useContext(ReportContext);
+
+const dispatch = useDispatch();
 const allKeys = ['description', 'Price', 'day', 'month', 'year'];
 const {alldata, fetchDataHandler: addExpense} = useGetData(allKeys);
 
  const addExpenseHandler = async (expense) => {
  	const id = props.id.trim() !== "" ? props.id : userInput.accountid;
+ 	console.log(id);
 	let d = new Date(userInput.date);
 	
 	const expenseDataCtx = {
@@ -22,17 +27,18 @@ const {alldata, fetchDataHandler: addExpense} = useGetData(allKeys);
 		"year": d.getFullYear(),
 	};
 	const saveData=(data)=>{
-		console.log(data);
+		// console.log(data);
 	}
 	const addExpenseWrapper = async() => {
-	await	addExpense(`https://expensetracker-706b7-default-rtdb.firebaseio.com/expense/${id}.json`, {
+	await	addExpense(`http://localhost:5000/record/add/${id}/expense`, {
 		  method: 'POST',
 		  body: JSON.stringify(expense),
 		  headers: {
 		    'Content-Type': 'application/json'
 		  }
 		},saveData);
-	await ctxRep.onExpensesUpdate(expenseDataCtx);
+	await dispatch(reportActions.onExpensesUpdate(expenseDataCtx));
+	// await ctxRep.onExpensesUpdate(expenseDataCtx);
 
 	}
 	addExpenseWrapper();

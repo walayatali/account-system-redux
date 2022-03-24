@@ -19,7 +19,8 @@ const {alldata, fetchDataHandler: addAccount} = useGetData(allKeys);
 		// console.log(data);
 	}
 	const addAccountWrapper = async() => {
-	await	addAccount(`https://expensetracker-706b7-default-rtdb.firebaseio.com/accounts.json`, {
+		// `https://expensetracker-706b7-default-rtdb.firebaseio.com/accounts.json`
+	await	addAccount(`http://localhost:5000/record/add/0/accounts`, {
 		  method: 'POST',
 		  body: JSON.stringify(account),
 		  headers: {

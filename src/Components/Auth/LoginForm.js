@@ -56,7 +56,7 @@ function LoginForm (props)	{
 	}
 
 	const fetchCredentials = (data) => {
-		// console.log(data);
+		console.log(data);
 	}
 
 	const submitHandler = async(e) => {
@@ -64,8 +64,9 @@ function LoginForm (props)	{
 		dispatch({type:"FORM_VALIDATE", email: emailRef.current.value, password: passwordRef.current.value })
 		if( authState.valid){
 			const goAuth = async()=> {
-				await sendCredentials(`https://expensetracker-706b7-default-rtdb.firebaseio.com/users.json`,"", fetchCredentials);
-				await ctxAuth.onSetUser(emailRef.current.value, passwordRef.current.value ); 
+				// await sendCredentials(`https://expensetracker-706b7-default-rtdb.firebaseio.com/users.json`,"", fetchCredentials);
+				await sendCredentials(`http://localhost:5000/record?resources=users&email=${emailRef.current.value}&password=${passwordRef.current.value}`,"", fetchCredentials);
+				// await ctxAuth.onSetUser(emailRef.current.value, passwordRef.current.value ); 
 				await reduxDispatch(authActions.login({email: emailRef.current.value, password: passwordRef.current.value})); 
 
 			}

@@ -14,6 +14,7 @@ function useGetData( allKeys, dataDepend = "")	{
             response = await fetch(url);
         }
       if (!response.ok) {
+        // console.log(response);
         throw new Error('Something went wrong!');
       }
 

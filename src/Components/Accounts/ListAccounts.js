@@ -20,14 +20,17 @@ import {
 import AccountContext from '../Store/account-context';
 import AuthContext from '../Store/auth-context';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { authActions } from '../Store/auth-slice';
 
 function ListAccounts(props)	{
 
 	const accRep = useContext(AccountContext);
 	const { accountsUpdated } = accRep;
 
-	const authCtx = useContext(AuthContext);
-	const { email } = authCtx;
+
+	const dispatch = useDispatch();
+    const email = useSelector(state => state.auth.email);
 
 	const navigate = useNavigate();
 	let location = useLocation();
@@ -79,12 +82,14 @@ function ListAccounts(props)	{
     	if(typeof accountsUpdated.name !== "undefined"){
   			setAccounts(accounts.concat(accountsUpdated));
   		}else{
-    		getAccounts('https://expensetracker-706b7-default-rtdb.firebaseio.com/accounts.json',"",fetchRecords);
+    		// getAccounts('https://expensetracker-706b7-default-rtdb.firebaseio.com/accounts.json',"",fetchRecords);
+    		getAccounts(`http://localhost:5000/record?resources=accounts`,{method: 'GET'},fetchRecords);
     	}
     	return ()=>{
     		setAccounts([]);
     	}
     },[getAccounts, accountsUpdated])
+
 
 	return (
 

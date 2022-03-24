@@ -10,14 +10,13 @@ const authSlice = createSlice({
   initialState: initialAuthState,
   reducers: {
     login(state, action) {
-      console.log("asdasd");
-      console.log(action.payload);
-      console.log("asdasd");
       state.email = action.payload.email;
       state.password = action.payload.password;
       localStorage.setItem("email", action.payload.email);
     },
-    logout() {
+    logout(state, action) {
+      state.email = '';
+      state.password = '';
       localStorage.removeItem("email");
     },
   },

@@ -4,25 +4,30 @@ import classes from './Report.module.css';
 import useGetData from '../../Hooks/useGetData';
 import ReportContext from '../Store/report-context';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { reportActions } from '../Store/report-slice';
+
 
 function Report(props)	{
+
+	const dispatch = useDispatch();
+	const expensesUpdated = useSelector(state => state.report.expensesUpdated);
 	
-	const ctxRep = useContext(ReportContext);
-	const { expensesUpdated } = ctxRep;
+	
   	const loadedExpenses = [];
 	const [expenses, setExpenses] = useState([]);
 	const allKeys = ['Price', 'description', 'ItemDate'];
 	const { alldata,fetchDataHandler: getExpenses } = useGetData(allKeys);
 	const fetchExpenses = (allExpenses) => {
 		const loadedExpenses = [];
-
 	      for (const expenseKey in allExpenses) {
-	      	var d = new Date(allExpenses[expenseKey]["ItemDate"]);
+			console.log(allExpenses[expenseKey]["expense"]["ItemDate"]);
+	      	var d = new Date(allExpenses[expenseKey]["expense"]["ItemDate"]);
               let month = d.getMonth()+1;
               let day = d.getUTCDate();
               let year = d.getFullYear();
-	        loadedExpenses.push({ day: day, month: month, year: year, "Price": allExpenses[expenseKey]["Price"],
-	        	 "description": allExpenses[expenseKey]["description"] });
+	        loadedExpenses.push({ day: day, month: month, year: year, "Price": allExpenses[expenseKey]["expense"]["Price"],
+	        	 "description": allExpenses[expenseKey]["expense"]["description"] });
 	      }
 	      setExpenses(loadedExpenses);
     }
@@ -30,7 +35,8 @@ function Report(props)	{
   		if(typeof expensesUpdated.day !== "undefined"){
   			setExpenses(expenses.concat(expensesUpdated));
   		}else{
-			getExpenses(`https://expensetracker-706b7-default-rtdb.firebaseio.com/expense/${props.accountId}.json`,"", fetchExpenses);
+			// getExpenses(`https://expensetracker-706b7-default-rtdb.firebaseio.com/expense/${props.accountId}.json`,"", fetchExpenses);
+			getExpenses(`http://localhost:5000/record/?resources=expense&accountid=${props.accountId}`,{method: 'GET'}, fetchExpenses);
   		}
   	return () => {
       setExpenses([]); // This worked for me
@@ -38,7 +44,7 @@ function Report(props)	{
   },[getExpenses, expensesUpdated])
 
   useEffect(()=> {
-  		ctxRep.onExpensesUpdate({});
+  		dispatch(reportActions.onExpensesUpdate({}));
   },[]);
 
   useEffect(()=> {
