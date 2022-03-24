@@ -30,7 +30,7 @@ const {alldata, fetchDataHandler: addExpense} = useGetData(allKeys);
 		// console.log(data);
 	}
 	const addExpenseWrapper = async() => {
-	await	addExpense(`http://localhost:5000/record/add/${id}/expense`, {
+	await	addExpense(`${process.env.REACT_APP_SERVER_URL}record/add/${id}/expense`, {
 		  method: 'POST',
 		  body: JSON.stringify(expense),
 		  headers: {

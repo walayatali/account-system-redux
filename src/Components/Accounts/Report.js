@@ -36,7 +36,7 @@ function Report(props)	{
   			setExpenses(expenses.concat(expensesUpdated));
   		}else{
 			// getExpenses(`https://expensetracker-706b7-default-rtdb.firebaseio.com/expense/${props.accountId}.json`,"", fetchExpenses);
-			getExpenses(`http://localhost:5000/record/?resources=expense&accountid=${props.accountId}`,{method: 'GET'}, fetchExpenses);
+			getExpenses(`${process.env.REACT_APP_SERVER_URL}record/?resources=expense&accountid=${props.accountId}`,{method: 'GET'}, fetchExpenses);
   		}
   	return () => {
       setExpenses([]); // This worked for me

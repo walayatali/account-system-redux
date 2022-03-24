@@ -83,7 +83,7 @@ function ListAccounts(props)	{
   			setAccounts(accounts.concat(accountsUpdated));
   		}else{
     		// getAccounts('https://expensetracker-706b7-default-rtdb.firebaseio.com/accounts.json',"",fetchRecords);
-    		getAccounts(`http://localhost:5000/record?resources=accounts`,{method: 'GET'},fetchRecords);
+    		getAccounts(`${process.env.REACT_APP_SERVER_URL}record?resources=accounts`,{method: 'GET'},fetchRecords);
     	}
     	return ()=>{
     		setAccounts([]);

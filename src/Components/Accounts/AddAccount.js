@@ -20,7 +20,7 @@ const {alldata, fetchDataHandler: addAccount} = useGetData(allKeys);
 	}
 	const addAccountWrapper = async() => {
 		// `https://expensetracker-706b7-default-rtdb.firebaseio.com/accounts.json`
-	await	addAccount(`http://localhost:5000/record/add/0/accounts`, {
+	await	addAccount(`${process.env.REACT_APP_SERVER_URL}record/add/0/accounts`, {
 		  method: 'POST',
 		  body: JSON.stringify(account),
 		  headers: {
